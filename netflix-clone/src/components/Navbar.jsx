@@ -40,26 +40,18 @@ export default function Navbar({ isScrolled }) {
         </div>
         <div className="right flex a-center">
           <div className={`search ${showSearch ? "show-search" : ""}`}>
-            <button
-              onFocus={() => setShowSearch(true)}
-              onBlur={() => {
-                if (!inputHover) {
-                  setShowSearch(false);
-                }
-              }}
-            >
-              <FaSearch />
-            </button>
-            <input
-              type="text"
-              placeholder="Search"
-              onMouseEnter={() => setInputHover(true)}
-              onMouseLeave={() => setInputHover(false)}
-              onBlur={() => {
-                setShowSearch(false);
-                setInputHover(false);
-              }}
-            />
+            <Link to="/search">
+              <button
+                onFocus={() => setShowSearch(true)}
+                onBlur={() => {
+                  if (!inputHover) {
+                    setShowSearch(false);
+                  }
+                }}
+              >
+                <FaSearch />
+              </button>
+            </Link>
           </div>
           <button onClick={() => signOut(firebaseAuth)}>
             <FaPowerOff />

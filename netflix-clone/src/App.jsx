@@ -7,6 +7,7 @@ import Player from "./pages/Player";
 import MoviePage from "./pages/Movies";
 import TVShows from "./pages/TVShows";
 import UserListedMovies from "./pages/UserListedMovies";
+import Search from "./pages/Search";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route exact path="/movies" element={<MoviePage />} />
         <Route exact path="/tv" element={<TVShows />} />
         <Route exact path="/mylist" element={<UserListedMovies />} />
+        <Route exact path="/search" element={<Search />} />
         <Route exact path="/" element={<Netflix />} />
       </Routes>
     </BrowserRouter>

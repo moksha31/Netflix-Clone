@@ -12,6 +12,7 @@ import { firebaseAuth } from "../utils/firebase-config";
 import { useDispatch } from "react-redux";
 import { removeMovieFromLiked } from "../store";
 import video from "../assets/video.mp4";
+import default1 from "../assets/default1.jpg";
 
 export default React.memo(function Card({ index, movieData, isLiked = false }) {
   const navigate = useNavigate();
@@ -36,14 +37,21 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
     }
   };
 
+  const imageUrl =
+    movieData.image || movieData.poster_path || movieData.backdrop_path
+      ? `https://image.tmdb.org/t/p/w500${
+          movieData.image || movieData.backdrop_path || movieData.poster_path
+        }`
+      : default1;
+
   return (
     <Container
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <img
-        src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
-        alt="card"
+        src={imageUrl}
+        alt={movieData.title || movieData.name || "card"}
         onClick={() => navigate("/player")}
       />
 
@@ -51,8 +59,8 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
         <div className="hover">
           <div className="image-video-container">
             <img
-              src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
-              alt="card"
+              src={imageUrl}
+              alt={movieData.title || movieData.name || "card"}
               onClick={() => navigate("/player")}
             />
             <video
@@ -65,7 +73,7 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
           </div>
           <div className="info-container flex column">
             <h3 className="name" onClick={() => navigate("/player")}>
-              {movieData.name}
+              {movieData.title || movieData.name}
             </h3>
             <div className="icons flex j-between">
               <div className="controls flex">
@@ -92,13 +100,15 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
                 <BiChevronDown title="More Info" />
               </div>
             </div>
-            <div className="genres flex">
-              <ul className="flex">
-                {movieData.genres.map((genre) => (
-                  <li>{genre}</li>
-                ))}
-              </ul>
-            </div>
+            {movieData.genres && movieData.genres.length > 0 && (
+              <div className="genres flex">
+                <ul className="flex">
+                  {movieData.genres.map((genre, idx) => (
+                    <li key={idx}>{genre}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -109,15 +119,17 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
 const Container = styled.div`
   max-width: 230px;
   width: 230px;
-  height: 100%;
+  height: 140px;
   cursor: pointer;
   position: relative;
   img {
     border-radius: 0.2rem;
     width: 100%;
     height: 100%;
+    object-fit: cover;
     z-index: 10;
   }
+
   .hover {
     z-index: 99;
     height: max-content;
